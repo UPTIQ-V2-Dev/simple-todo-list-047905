@@ -8,6 +8,7 @@ let server: Server | undefined;
 
 console.log('Starting');
 async function main() {
+    logger.error('DB URL', process.env.DATABASE_URL);
     await prisma.$connect();
     logger.info('Connected to SQL Database');
     server = app.listen(config.port, () => {

@@ -17,8 +17,11 @@ export function iframeErrorPropagation(): Plugin {
             if (err.response?.data) {
               if (typeof err.response.data === 'string') {
                 return err.response.data;
-              }
+                }
               try {
+                  if("error" in  err.response.data){
+                    return err.response.data.error 
+                  }
                 return JSON.stringify(err.response.data);
               } catch {
                 // Not serializable, continue to next check
@@ -72,11 +75,13 @@ export function iframeErrorPropagation(): Plugin {
           // Capture console.error
           (function() {
             const origConsoleError = console.error;
+
             console.error = function(...args) {
+            console.log(args)
               sendToParent({
-                type: 'CONSOLE_ERROR',
+                type: args.find(a=> !!a?.response?.data?.error) ? "SERVER_ERROR" : 'CONSOLE_ERROR',
                 message: args.map(formatErrorMessage).filter(Boolean).join(' '),
-                stack: args.find(a => a instanceof Error)?.stack
+                stack: args.find(a=> !!a?.response?.data?.stack)?.response?.data?.stack ||  args.find(a => a instanceof Error)?.stack
               });
               origConsoleError.apply(console, args);
             };

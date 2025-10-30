@@ -15,7 +15,35 @@ Simple todo list application with React 19, Vite, shadcn/ui, and Tailwind CSS v4
 
 ## Page-by-Page Implementation Plan
 
-### 1. Main Todo List Page (`src/pages/TodoListPage.tsx`)
+### 1. Login Page (`src/pages/LoginPage.tsx`)
+
+**Components Required:**
+
+- `LoginForm` - Main login form component
+
+**Features:**
+
+- Email and password input fields
+- Form validation with Zod
+- Login functionality with auth service
+- Redirect to todo list after successful login
+- Error handling and display
+- Responsive design
+
+**API Endpoints:**
+
+- `POST /auth/login` - User authentication
+
+**Utils/Hooks:**
+
+- `loginValidation` - Zod schema for login validation
+- Uses existing `authService.login` from `src/services/auth.ts`
+
+**Types:**
+
+- Uses existing `LoginRequest` from `src/types/user.ts`
+
+### 2. Main Todo List Page (`src/pages/TodoListPage.tsx`)
 
 **Components Required:**
 
